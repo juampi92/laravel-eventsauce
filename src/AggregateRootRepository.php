@@ -3,8 +3,6 @@
 namespace Spatie\LaravelEventSauce;
 
 use EventSauce\EventSourcing\AggregateRoot;
-use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\EventSourcedAggregateRootRepository;
 use EventSauce\EventSourcing\MessageConsumer;
 use EventSauce\EventSourcing\MessageDecorator;
