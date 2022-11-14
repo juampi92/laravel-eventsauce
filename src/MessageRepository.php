@@ -6,6 +6,7 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository as EventSauceMessageRepository;
+use EventSauce\EventSourcing\PaginationCursor;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Exception;
 use Generator;
@@ -86,5 +87,10 @@ class MessageRepository implements EventSauceMessageRepository
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
         throw new Exception('Snapshotting not supported yet.');
+    }
+
+    public function paginate(PaginationCursor $cursor): Generator
+    {
+        throw new Exception('Pagination not supported yet.');
     }
 }
