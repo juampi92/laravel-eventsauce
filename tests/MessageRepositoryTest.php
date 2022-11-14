@@ -80,6 +80,6 @@ class MessageRepositoryTest extends TestCase
 
         $this->assertCount(1, $messageArray);
         $this->assertInstanceOf(Message::class, $messageArray[0]);
-        $this->assertInstanceOf(TestEvent::class, $messageArray[0]->event());
+        $this->assertInstanceOf(TestEvent::class, $messageArray[0]->payload());
     }
 }

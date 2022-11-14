@@ -117,11 +117,11 @@ class AggregateRootRepositoryTest extends TestCase
                 return false;
             }
 
-            if (! $firstMessage->event() instanceof TestEvent) {
+            if (! $firstMessage->payload() instanceof TestEvent) {
                 return false;
             }
 
-            if ($firstMessage->event()->number !== 1) {
+            if ($firstMessage->payload()->number !== 1) {
                 return false;
             }
 
