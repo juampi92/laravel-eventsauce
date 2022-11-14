@@ -2,15 +2,16 @@
 
 namespace Spatie\LaravelEventSauce\Tests\TestClasses;
 
-use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\MessageConsumer;
 use PHPUnit\Framework\Assert;
 
-class TestConsumer implements Consumer
+class TestConsumer implements MessageConsumer
 {
-    protected $handledMessages = [];
+    /** @var Message[] */
+    protected array $handledMessages = [];
 
-    public function handle(Message $message)
+    public function handle(Message $message): void
     {
         $this->handledMessages[] = $message;
     }

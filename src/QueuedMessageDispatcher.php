@@ -10,7 +10,7 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
     /** @var string */
     protected $jobClass;
 
-    /** @var \EventSauce\EventSourcing\Consumer[] */
+    /** @var \EventSauce\EventSourcing\MessageConsumer[] */
     protected $consumers = [];
 
     public function setJobClass(string $jobClass)
@@ -27,7 +27,7 @@ class QueuedMessageDispatcher implements EventSauceMessageDispatcher
         return $this;
     }
 
-    public function dispatch(Message ...$messages)
+    public function dispatch(Message ...$messages): void
     {
         if (! count($this->consumers)) {
             return;

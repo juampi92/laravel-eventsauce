@@ -5,8 +5,8 @@ namespace Spatie\LaravelEventSauce;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
-use EventSauce\EventSourcing\Consumer;
+use EventSauce\EventSourcing\EventSourcedAggregateRootRepository;
+use EventSauce\EventSourcing\MessageConsumer;
 use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\MessageRepository;
@@ -15,15 +15,15 @@ use Exception;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 
-abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
+abstract class AggregateRootRepository extends EventSourcedAggregateRootRepository
 {
     /** @var string */
-    protected $aggregateRoot = null;
+    protected ?string $aggregateRoot = null;
 
-    /** @var array */
+    /** @var array<MessageConsumer> */
     protected $consumers = [];
 
-    /** @var array */
+    /** @var array<MessageConsumer> */
     protected $queuedConsumers = [];
 
     /** @var string|null */
@@ -35,14 +35,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string|null */
     protected $messageRepository = null;
 
-    /** @var string|null */
+    /** @var MessageDecorator|null */
     protected $messageDecorator = null;
 
     /** @var string|null */
     protected $queuedMessageJob = null;
-
-    /** @var \EventSauce\EventSourcing\ConstructingAggregateRootRepository */
-    protected $constructingAggregateRootRepository;
 
     public function __construct()
     {
@@ -58,7 +55,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             throw new Exception('Not a valid queued message job');
         }
 
-        $this->constructingAggregateRootRepository = new ConstructingAggregateRootRepository(
+        parent::__construct(
             $aggregateRootClass,
             $this->getMessageRepository(),
             new MessageDispatcherChain(
@@ -69,21 +66,6 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             ),
             $this->getMessageDecorator()
         );
-    }
-
-    public function retrieve(AggregateRootId $aggregateRootId): object
-    {
-        return $this->constructingAggregateRootRepository->retrieve($aggregateRootId);
-    }
-
-    public function persist(object $aggregateRoot)
-    {
-        return $this->constructingAggregateRootRepository->persist($aggregateRoot);
-    }
-
-    public function persistEvents(AggregateRootId $aggregateRootId, int $aggregateRootVersion, object ...$events)
-    {
-        $this->constructingAggregateRootRepository->persistEvents($aggregateRootId, $aggregateRootVersion);
     }
 
     protected function getAggregateRootClass(): string
@@ -115,11 +97,17 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         return DB::connection($connectionName);
     }
 
+    /**
+     * @return array<MessageConsumer>
+     */
     protected function getConsumers(): array
     {
         return $this->consumers;
     }
 
+    /**
+     * @return array<MessageConsumer>
+     */
     protected function getQueuedConsumers(): array
     {
         return $this->queuedConsumers;
@@ -142,7 +130,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     protected function instanciate(array $classes): array
     {
-        return array_map(function ($class): Consumer {
+        return array_map(function ($class): MessageConsumer {
             return is_string($class)
                 ? app($class)
                 : $class;

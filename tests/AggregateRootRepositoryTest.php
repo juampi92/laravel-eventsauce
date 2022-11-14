@@ -30,7 +30,7 @@ class AggregateRootRepositoryTest extends TestCase
     public function it_can_construct_an_alternative_aggregate_root()
     {
         $repository = new class() extends Repository {
-            protected $aggregateRoot = AlternativeAggregateRoot::class;
+            protected ?string $aggregateRoot = AlternativeAggregateRoot::class;
         };
 
         $aggregateRoot = $repository->retrieve(new Identifier('1'));

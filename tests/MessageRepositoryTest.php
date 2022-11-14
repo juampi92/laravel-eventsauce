@@ -5,7 +5,6 @@ namespace Spatie\LaravelEventSauce\Tests;
 use DateTimeImmutable;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\PointInTime;
 use Illuminate\Support\Facades\DB;
 use Spatie\LaravelEventSauce\Tests\TestClasses\Identifier;
 use Spatie\LaravelEventSauce\Tests\TestClasses\TestEvent;
@@ -33,7 +32,7 @@ class MessageRepositoryTest extends TestCase
             Header::EVENT_ID => '1',
             Header::EVENT_TYPE => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => 'aggregate-root-id',
-            Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
+            Header::TIME_OF_RECORDING => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
         ];
 
         $message = new Message($testEvent, $headers);
@@ -62,7 +61,7 @@ class MessageRepositoryTest extends TestCase
             Header::EVENT_ID => 1,
             Header::EVENT_TYPE => get_class($testEvent),
             Header::AGGREGATE_ROOT_ID => '1',
-            Header::TIME_OF_RECORDING => PointInTime::fromDateTime(new DateTimeImmutable())->toString(),
+            Header::TIME_OF_RECORDING => (new DateTimeImmutable())->format('Y-m-d H:i:s'),
         ];
 
         $message = new Message($testEvent, $headers);

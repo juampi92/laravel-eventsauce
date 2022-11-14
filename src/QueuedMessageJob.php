@@ -2,9 +2,9 @@
 
 namespace Spatie\LaravelEventSauce;
 
-use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\MessageConsumer;
 use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Illuminate\Bus\Queueable;
@@ -28,7 +28,7 @@ class QueuedMessageJob implements ShouldQueue
     {
         $this->messages = $messages;
 
-        $this->consumerClasses = array_map(function (Consumer $consumer) {
+        $this->consumerClasses = array_map(function (MessageConsumer $consumer) {
             return get_class($consumer);
         }, $consumers);
     }

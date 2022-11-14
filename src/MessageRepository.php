@@ -42,7 +42,7 @@ class MessageRepository implements EventSauceMessageRepository
     /**
      * @param  \EventSauce\EventSourcing\Message  ...$messages
      */
-    public function persist(Message ...$messages)
+    public function persist(Message ...$messages): void
     {
         foreach ($messages as $message) {
             $serializeMessage = $this->serializer->serializeMessage($message);
@@ -73,7 +73,7 @@ class MessageRepository implements EventSauceMessageRepository
             ->get();
 
         foreach ($payloads as $payload) {
-            yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
+            yield $this->serializer->unserializePayload(json_decode($payload->payload, true));
         }
     }
 
