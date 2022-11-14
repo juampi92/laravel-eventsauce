@@ -1,22 +1,21 @@
 <?php
 
-$finder = Symfony\Component\Finder\Finder::create()
-    ->in([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
-    ])
-    ->name('*.php')
-    ->ignoreDotFiles(true)
-    ->ignoreVCS(true);
+/*
+ * This document has been generated with:
+ * https://mlocati.github.io/php-cs-fixer-configurator/#version:3.0.3|configurator
+ * you can change this configuration by importing this file.
+ */
+$config = new PhpCsFixer\Config();
 
-return PhpCsFixer\Config::create()
+return $config
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
+        'ordered_imports' => ['sort_algorithm' => 'alpha'],
         'no_unused_imports' => true,
         'not_operator_with_successor_space' => true,
-        'trailing_comma_in_multiline_array' => true,
+        'trailing_comma_in_multiline' => ['elements' => ['arrays']],
         'phpdoc_scalar' => true,
         'unary_operator_spaces' => true,
         'binary_operator_spaces' => true,
@@ -30,4 +29,13 @@ return PhpCsFixer\Config::create()
             'keep_multiple_spaces_after_comma' => true,
         ]
     ])
-    ->setFinder($finder);
+    ->setFinder(
+        Symfony\Component\Finder\Finder::create()
+            ->in([
+                __DIR__ . '/src',
+                __DIR__ . '/tests',
+            ])
+            ->name('*.php')
+            ->ignoreDotFiles(true)
+            ->ignoreVCS(true),
+    );
