@@ -26,8 +26,8 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "eventsauce/code-generation": "2.0.0",
-        "eventsauce/eventsauce": "2.0.0",
+        "eventsauce/code-generation": "^2.0",
+        "eventsauce/eventsauce": "^2.3.1",
         "illuminate/bus": "^7.0|^8.0|^9.0",
         "illuminate/container": "^7.0|^8.0|^9.0",
         "illuminate/queue": "^7.0|^8.0|^9.0",
@@ -36,7 +36,7 @@
         "spatie/temporary-directory": "^1.2"
     },
     "require-dev": {
-        "eventsauce/test-utilities": "2.0.0",
+        "eventsauce/test-utilities": "^2.0.0",
         "mockery/mockery": "^1.4",
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.5.23"
