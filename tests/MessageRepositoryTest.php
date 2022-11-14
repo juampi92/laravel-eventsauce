@@ -20,7 +20,7 @@ class MessageRepositoryTest extends TestCase
 
         $messageRepositoryClass = config('eventsauce.message_repository');
 
-        $this->messageRepository = app()->makeWith($messageRepositoryClass, ['tableName' => 'domain_messages']);
+        $this->messageRepository = $this->app->makeWith($messageRepositoryClass, ['tableName' => 'domain_messages']);
     }
 
     /** @test */
